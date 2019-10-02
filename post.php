@@ -9,14 +9,14 @@
     $data = json_decode($json);
 
     if ($data->status == 0 && $data->id > 0) { // Delete task
-        $query = $db->prepare('DELETE FROM todo_list WHERE id = :id OR status = :status');
+        $query = $db->prepare('DELETE FROM task WHERE id = :id OR status = :status');
         $query->bindParam(':id', $data->id, PDO::PARAM_INT);
         $query->bindParam(':status', $data->status, PDO::PARAM_INT);
         $query->execute();
         http_response_code(200); // OK
     }
     elseif ($data->content != '' && $data->id > 0) { // Update task
-        $query = $db->prepare('UPDATE todo_list SET content = :content, status = :status WHERE id = :id');
+        $query = $db->prepare('UPDATE task SET content = :content, status = :status WHERE id = :id');
         $query->bindParam(':content', htmlspecialchars($data->content));
         $query->bindParam(':status', $data->status, PDO::PARAM_INT);
         $query->bindParam(':id', $data->id, PDO::PARAM_INT);
@@ -24,7 +24,7 @@
         http_response_code(200); // OK
     }
     elseif ($data->content != '' && !isset($data->id)) { // Add task
-        $query = $db->prepare('INSERT INTO todo_list (content, status) VALUES (:content, :status)');
+        $query = $db->prepare('INSERT INTO task (content, status) VALUES (:content, :status)');
         $query->bindParam(':content', htmlspecialchars($data->content));
         $query->bindParam(':status', $data->status);
         $query->execute();

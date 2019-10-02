@@ -6,7 +6,7 @@
 
     $json_array = array();
     $db = dbConnect();
-    $query = $db->query('SELECT id, content, status FROM todo_list');
+    $query = $db->query('SELECT id, content, status FROM task');
     while ($data = $query->fetch(PDO::FETCH_ASSOC)) {
         $json_array[] = $data;
     }
